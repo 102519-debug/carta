@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Carta para Santa 🎅✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rojo-santa: #c0392b;
+            --rojo-oscuro: #922b21;
+            --verde-pino: #1e8449;
+            --dorado: #f1c40f;
+            --crema: #fdfbf7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: radial-gradient(circle at top, #1b4f72, #0b192c);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            color: #2c3e50;
+        }
+
+        /* Copos de nieve */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            user-select: none;
+            z-index: 1;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+
+        /* Pantalla inicial (El Sobre) */
+        #sobre-container {
+            background: var(--rojo-santa);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 4px dashed var(--dorado);
+            max-width: 400px;
+            width: 100%;
+            z-index: 10;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #sobre-container:hover {
+            transform: scale(1.03);
+        }
+
+        .sello {
+            font-size: 60px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* La Carta */
+        #carta-container {
+            display: none;
+            background: var(--crema);
+            background-image: radial-gradient(#e5e0d8 1px, transparent 1px);
+            background-size: 20px 20px;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 15px;
+            padding: 35px 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            border-top: 12px solid var(--rojo-santa);
+            border-bottom: 12px solid var(--verde-pino);
+            z-index: 10;
+            position: relative;
+            animation: abrirCarta 0.8s ease forwards;
+        }
+
+        @keyframes abrirCarta {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        h1 {
+            font-family: 'Caveat', cursive;
+            color: var(--rojo-santa);
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* Marco estilo Polaroid para gato.jpg */
+        .marco-polaroid {
+            background: white;
+            padding: 10px 10px 20px 10px;
+            border-radius: 6px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            max-width: 240px;
+            margin: 0 auto 22px auto;
+            text-align: center;
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+            border: 1px solid #eee;
+        }
+
+        .marco-polaroid:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .marco-polaroid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            display: block;
+        }
+
+        .pie-foto {
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            color: #555;
+            margin-top: 8px;
+        }
+
+        .intro {
+            font-family: 'Caveat', cursive;
+            font-size: 1.65rem;
+            line-height: 1.4;
+            color: #34495e;
+            margin-bottom: 20px;
+            background: rgba(241, 196, 15, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--dorado);
+        }
+
+        .instruccion {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        /* Lista de deseos */
+        .lista-deseos {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .deseo-item {
+            background: white;
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .deseo-item:hover {
+            border-color: var(--dorado);
+            transform: translateX(5px);
+        }
+
+        .deseo-item.checked {
+            background: #eafaf1;
+            border-color: var(--verde-pino);
+        }
+
+        .deseo-item.checked .texto-deseo {
+            text-decoration: line-through;
+            color: var(--verde-pino);
+            font-weight: bold;
+        }
+
+        .emoji {
+            font-size: 1.5rem;
+        }
+
+        .texto-deseo {
+            font-size: 1.05rem;
+            flex-grow: 1;
+        }
+
+        .nota-elfo {
+            font-size: 0.8rem;
+            color: var(--rojo-santa);
+            font-weight: bold;
+            display: none;
+        }
+
+        .deseo-item.checked .nota-elfo {
+            display: inline-block;
+        }
+
+        .despedida {
+            font-family: 'Caveat', cursive;
+            font-size: 1.7rem;
+            text-align: right;
+            color: var(--rojo-santa);
+            margin-bottom: 25px;
+        }
+
+        /* Botón Enviar */
+        .btn-enviar {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--rojo-santa), var(--rojo-oscuro));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(192, 57, 43, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-enviar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(192, 57, 43, 0.6);
+        }
+
+        /* Mensaje final y contenedor del GIF */
+        #respuesta-santa {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--verde-pino);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+            animation: abrirCarta 0.5s ease;
+            border: 3px solid var(--dorado);
+        }
+
+        .gif-final {
+            width: 100%;
+            max-width: 260px;
+            border-radius: 12px;
+            margin: 15px auto 5px auto;
+            display: block;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Pantalla 1: Sobre cerrado -->
+    <div id="sobre-container" onclick="abrirCarta()">
+        <div class="sello">🎅✉️</div>
+        <h2>Para: Santa Claus</h2>
+        <p style="margin-top: 10px; opacity: 0.9;">Polo Norte (Entrega Urgente)</p>
+        <p style="margin-top: 20px; font-weight: bold; color: var(--dorado);">✨ Haz clic para abrir la carta ✨</p>
+    </div>
+
+    <!-- Pantalla 2: Carta abierta -->
+    <div id="carta-container">
+        <h1>🎄 Querido Santa 🎄</h1>
+
+        <!-- Tu imagen gato.jpg -->
+        <div class="marco-polaroid">
+            <img src="gato.jpg" alt="Foto navideña">
+            <div class="pie-foto">Evidencia de que me porté bien 😇</div>
+        </div>
+        
+        <p class="intro">
+            "Yo sé que me porté muy bien y no tengo dinero así que pues aquí está mi lista bonita y querida:"
+        </p>
+
+        <p class="instruccion">👆 Toca cada regalo para aprobarlo con los elfos</p>
+
+        <ul class="lista-deseos">
+            <li class="deseo-item" onclick="toggleDeseo(this)">
+                <span class="emoji">🎮</span>
+                <span class="texto-deseo">Una Nintendo Switch 2</span>
+                <span class="nota-elfo">¡Anotado!</span>
+            </li>
+            <li class="deseo-item" onclick="toggleDeseo(this)">
+                <span class="emoji">🛍️</span>
+                <span class="texto-deseo">Mi carrito de Shein</span>
+                <span class="nota-elfo">¡Todo pagado!</span>
+            </li>
+            <li class="deseo-item" onclick="toggleDeseo(this)">
+                <span class="emoji">⛩️</span>
+                <span class="texto-deseo">Crunchyroll por toda la vida</span>
+                <span class="nota-elfo">¡Suscripción VIP!</span>
+            </li>
+            <li class="deseo-item" onclick="toggleDeseo(this)">
+                <span class="emoji">🖥️</span>
+                <span class="texto-deseo">Una PC chida</span>
+                <span class="nota-elfo">¡Con luces RGB!</span>
+            </li>
+            <li class="deseo-item" onclick="toggleDeseo(this)">
+                <span class="emoji">📚</span>
+                <span class="texto-deseo">Mangas de Tokyo Ghoul</span>
+                <span class="nota-elfo">¡Colección completa!</span>
+            </li>
+            <li class="deseo-item" onclick="toggleDeseo(this)">
+                <span class="emoji">🦸</span>
+                <span class="texto-deseo">Figuras articulables</span>
+                <span class="nota-elfo">¡En su caja!</span>
+            </li>
+            <li class="deseo-item" onclick="toggleDeseo(this)">
+                <span class="emoji">🥞</span>
+                <span class="texto-deseo">Gorditas de nata con Nutella infinitas</span>
+                <span class="nota-elfo">¡Calientitas!</span>
+            </li>
+            <li class="deseo-item" onclick="toggleDeseo(this)">
+                <span class="emoji">🍖</span>
+                <span class="texto-deseo">Costillitas a la BBQ</span>
+                <span class="nota-elfo">¡Bien servidas!</span>
+            </li>
+            <li class="deseo-item" onclick="toggleDeseo(this)">
+                <span class="emoji">🥤</span>
+                <span class="texto-deseo">Una Coca</span>
+                <span class="nota-elfo">¡Bien fría!</span>
+            </li>
+        </ul>
+
+        <p class="despedida">
+            ...y así porfa, ahí te lo encargo. 🎁✨
+        </p>
+
+        <button class="btn-enviar" onclick="enviarCarta()">🛷 Enviar carta al Polo Norte</button>
+
+        <!-- Mensaje final con tu GIF nose.gif -->
+        <div id="respuesta-santa">
+            <h3>🎅 ¡Ho, Ho, Ho! Carta Recibida</h3>
+            <p style="margin-top: 5px;">Los elfos ya están preparando las gorditas de nata y empacando tu Switch 2. ¡Feliz Navidad!</p>
+            <img src="nose.gif" alt="Reacción navideña" class="gif-final">
+        </div>
+    </div>
+
+    <script>
+        // Crear nieve cayendo
+        function crearNieve() {
+            const copo = document.createElement('div');
+            copo.classList.add('snowflake');
+            copo.innerText = ['❄', '❅', '❆', '✨'][Math.floor(Math.random() * 4)];
+            copo.style.left = Math.random() * 100 + 'vw';
+            copo.style.fontSize = Math.random() * 15 + 10 + 'px';
+            copo.style.opacity = Math.random() * 0.7 + 0.3;
+            
+            const duracion = Math.random() * 3 + 4;
+            copo.style.animationDuration = duracion + 's';
+            
+            document.body.appendChild(copo);
+            setTimeout(() => copo.remove(), duracion * 1000);
+        }
+        setInterval(crearNieve, 200);
+
+        // Abrir el sobre
+        function abrirCarta() {
+            document.getElementById('sobre-container').style.display = 'none';
+            document.getElementById('carta-container').style.display = 'block';
+        }
+
+        // Marcar regalos
+        function toggleDeseo(elemento) {
+            elemento.classList.toggle('checked');
+        }
+
+        // Enviar carta con lluvia de emojis navideños
+        function enviarCarta() {
+            const cajaRespuesta = document.getElementById('respuesta-santa');
+            cajaRespuesta.style.display = 'block';
+            document.querySelector('.btn-enviar').innerText = '✅ ¡Enviada con éxito!';
+            
+            // Desplazar suavemente hacia abajo para que se vea el GIF
+            cajaRespuesta.scrollIntoView({ behavior: 'smooth' });
+            
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const confeti = document.createElement('div');
+                    confeti.classList.add('snowflake');
+                    confeti.innerText = ['🎁', '🎄', '🎅', '⭐', '🥞'][Math.floor(Math.random() * 5)];
+                    confeti.style.left = Math.random() * 100 + 'vw';
+                    confeti.style.fontSize = '24px';
+                    confeti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confeti);
+                    setTimeout(() => confeti.remove(), 4000);
+                }, i * 50);
+            }
+        }
+    </script>
+</body>
+</html>
